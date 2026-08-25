@@ -1,7 +1,6 @@
 # Auditing Agency Performance Monitoring and Ranking Module
-## Task Assignment 2 — Clean-Room Implementation
 
-This repository contains the complete, executable, clean-room implementation of the **Auditing Agency Performance Monitoring, Scoring, and Ranking Module** built in strict compliance with the authoritative Task Assignment 2 specification.
+This repository contains the complete, executable, clean-room implementation of the **Auditing Agency Performance Monitoring, Scoring, and Ranking Module**.
 
 ---
 
