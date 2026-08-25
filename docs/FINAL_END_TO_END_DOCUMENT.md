@@ -470,35 +470,102 @@ This comparative study evaluates at least three viable alternatives for each of 
 
 ### Acceptance Check 9: Worked Traceability Examples (3 Actual Organisations)
 
-#### Example 1: `ORG-0049` (Rank 1 — Top Performer)
+#### Example 1: `ORG-0049` (Rank 1 — Top Performer with Malformed Feature Injection)
 
-1. **Raw Variables** ([`data/sample_dataset.json`](data/sample_dataset.json)):
-   - `team_size: 47`, `years_operational: 7.2`, `completed_audits: 200`, `on_time: 153`, `duration: 27.07` days, `discrepancies: 1/170`, `controls: 30/30`, `renewals: 3`, `revocations: 0`.
-2. **Computed Feature Values & Status**:
-   - Timeliness: `76.5%` (VALID) | Efficiency: `27.07` days (VALID) | Error Rate: `0.006` (VALID)
-   - Scale: `None` (MALFORMED negative team size test injection) | Compliance: `100.0%` (VALID) | Past Renewal: `100.0%` (VALID).
-3. **Normalized Scores ($S_i$)**:
-   - Timeliness: `76.38` | Efficiency: `78.66` | Error Rate: `99.05` | Compliance: `96.67` | Past Renewal: `100.00`.
-4. **Feature Composite Score ($S_{\text{features}}$)**: `87.62` (Weight: `0.75`).
-5. **Model Output**: `model_name: "gradient_boosting"`, `model_version: "1.0.0"`, $P(\text{RENEWED}) = 0.9789 \to S_{\text{model}} = 97.89$ (Weight: `0.25`).
-6. **Continuous Performance Score**: $0.75 \times 87.62 + 0.25 \times 97.89 - 0.0 = \mathbf{90.19}$.
-7. **Final Rank & Decision**: **Rank 1**, `RECOMMEND_RENEWAL` (Confidence: `HIGH`, Boundary Uncertain: `False`).
+1. **Organisation ID**: `ORG-0049`
+2. **Raw Input Variables** ([`data/sample_dataset.json`](data/sample_dataset.json)):
+   - `team_size: -5` (injected `MALFORMED_NEGATIVE_TEAM_SIZE`), `years_operational: 5.4`, `eligible_completed_audits: 127`, `on_time_completed_audits: 97`, `mean_duration_days: 27.07`, `reviewed_reports: 122`, `identified_discrepancies: 7`, `applicable_controls: 60`, `compliant_applicable_controls: 58`, `historical_renewals: 2`, `historical_revocations: 0`, `reporting_period`: Standard 12-month annual cycle.
+3. **Computed Feature Values**:
+   - Audit Timeliness: `76.38%`
+   - Audit Efficiency: `27.07` days
+   - Error Rate: `0.057` discrepancies/report
+   - Agency Scale: `None`
+   - Compliance Adherence: `96.67%`
+   - Past Renewal Status: `100.00%`
+4. **Feature Validity / Status**:
+   - Timeliness: `VALID`, Efficiency: `VALID`, Error Rate: `VALID`, Scale: `MALFORMED`, Compliance: `VALID`, Past Renewal: `VALID`.
+5. **Normalized Feature Scores ($S_i \in [0, 100]$)**:
+   - Timeliness: `76.38` | Efficiency: `78.66` | Error Rate: `99.05` | Scale: `None` | Compliance: `96.67` | Past Renewal: `100.00`.
+6. **Feature Weights Applied (Dynamic Renormalization)**:
+   - Timeliness: `0.2222`, Efficiency: `0.1667`, Error Rate: `0.1667`, Scale: `0.0000`, Compliance: `0.2222`, Past Renewal: `0.2222` (Base weights reweighted over 5 valid features).
+7. **Feature Composite Score ($S_{\text{features}}$)**:
+   - $S_{\text{features}} = 0.2222(76.38) + 0.1667(78.66) + 0.1667(99.05) + 0.2222(96.67) + 0.2222(100.00) = \mathbf{90.30}$.
+8. **Model Name & Version**: `gradient_boosting` (`v1.0.0`).
+9. **Model Predicted Renewal Probability**: $P(\text{RENEWED} \mid X) = 0.9789 \to S_{\text{model}} = 97.89$.
+10. **Scoring Weights Applied**: Feature composite weight = `0.75`, Model output weight = `0.25`.
+11. **Missing/Malformed Feature Penalty**: $-2.00$ (1 malformed feature: `agency_scale`).
+12. **Final Continuous Performance Score**:
+    - $\text{Score} = (0.75 \times 90.30) + (0.25 \times 97.89) - 2.00 = 67.725 + 24.4725 - 2.00 = 92.195 - 2.00 = \mathbf{90.19}$.
+13. **Final Rank**: **Rank 1** (out of 120 organisations in [`output/ranking.json`](output/ranking.json)).
+14. **Empanelment Recommendation**: `RECOMMEND_RENEWAL`.
+15. **Decision Confidence**: `HIGH`.
+16. **Boundary Uncertainty Status**: `False` (`boundary_flag: "CONFIDENT_RENEWAL"`).
 
-#### Example 2: `ORG-0010` (Rank 61 — Median Performer)
+---
 
-1. **Feature Scores**: Timeliness: `89.72`, Efficiency: `100.00`, Error Rate: `48.47`, Scale: `41.25`, Compliance: `83.33`, Past Renewal: `None` (`NOT_ASSESSABLE`).
-2. **Feature Composite Score**: `73.59` (Weight: `0.75`).
-3. **Model Output**: $P(\text{RENEWED}) = 0.9763 \to S_{\text{model}} = 97.63$ (Weight: `0.25`).
-4. **Continuous Performance Score**: $0.75 \times 73.59 + 0.25 \times 97.63 - 2.0 (\text{penalty}) = \mathbf{79.60}$.
-5. **Final Rank & Decision**: **Rank 61**, `RECOMMEND_RENEWAL` (Confidence: `HIGH`, Boundary Uncertain: `False`).
+#### Example 2: `ORG-0010` (Rank 61 — Median Performer with Unassessable History)
 
-#### Example 3: `ORG-0068` (Rank 103 — Decision Boundary Uncertain)
+1. **Organisation ID**: `ORG-0010`
+2. **Raw Input Variables** ([`data/sample_dataset.json`](data/sample_dataset.json)):
+   - `team_size: 27`, `years_operational: 5.7`, `eligible_completed_audits: 107`, `on_time_completed_audits: 96`, `mean_duration_days: 6.03`, `reviewed_reports: 76`, `identified_discrepancies: 235` (injected error outlier), `applicable_controls: 60`, `compliant_applicable_controls: 50`, `historical_renewals: 0`, `historical_revocations: 0` (`SPARSE_OPERATIONAL_HISTORY_NEW_ENTRANT`), `reporting_period`: Standard 12-month annual cycle.
+3. **Computed Feature Values**:
+   - Audit Timeliness: `89.72%`
+   - Audit Efficiency: `6.03` days
+   - Error Rate: `3.092` discrepancies/report
+   - Agency Scale: `41.25` points
+   - Compliance Adherence: `83.33%`
+   - Past Renewal Status: `None`
+4. **Feature Validity / Status**:
+   - Timeliness: `VALID`, Efficiency: `VALID`, Error Rate: `VALID`, Scale: `VALID`, Compliance: `VALID`, Past Renewal: `NOT_ASSESSABLE` (Zero historical renewal decisions).
+5. **Normalized Feature Scores ($S_i \in [0, 100]$)**:
+   - Timeliness: `89.72` | Efficiency: `100.00` | Error Rate: `48.47` | Scale: `41.25` | Compliance: `83.33` | Past Renewal: `None`.
+6. **Feature Weights Applied (Dynamic Renormalization)**:
+   - Timeliness: `0.2500`, Efficiency: `0.1875`, Error Rate: `0.1875`, Scale: `0.1250`, Compliance: `0.2500`, Past Renewal: `0.0000` (Base weights reweighted over 5 valid features).
+7. **Feature Composite Score ($S_{\text{features}}$)**:
+   - $S_{\text{features}} = 0.2500(89.72) + 0.1875(100.00) + 0.1875(48.47) + 0.1250(41.25) + 0.2500(83.33) = \mathbf{76.26}$.
+8. **Model Name & Version**: `gradient_boosting` (`v1.0.0`).
+9. **Model Predicted Renewal Probability**: $P(\text{RENEWED} \mid X) = 0.9763 \to S_{\text{model}} = 97.63$.
+10. **Scoring Weights Applied**: Feature composite weight = `0.75`, Model output weight = `0.25`.
+11. **Missing/Malformed Feature Penalty**: $-2.00$ (1 unassessable feature: `past_renewal_status`).
+12. **Final Continuous Performance Score**:
+    - $\text{Score} = (0.75 \times 76.26) + (0.25 \times 97.63) - 2.00 = 57.195 + 24.4075 - 2.00 = 81.6025 - 2.00 = \mathbf{79.60}$.
+13. **Final Rank**: **Rank 61** (out of 120 organisations in [`output/ranking.json`](output/ranking.json)).
+14. **Empanelment Recommendation**: `RECOMMEND_RENEWAL`.
+15. **Decision Confidence**: `HIGH`.
+16. **Boundary Uncertainty Status**: `False` (`boundary_flag: "CONFIDENT_RENEWAL"`).
 
-1. **Feature Scores**: Timeliness: `None` (`NOT_ASSESSABLE`), Efficiency: `None` (`NOT_ASSESSABLE`), Error Rate: `86.12`, Scale: `26.00`, Compliance: `80.00`, Past Renewal: `100.00`.
-2. **Feature Composite Score**: `73.92` (Weight: `0.75`).
-3. **Model Output**: $P(\text{RENEWED}) = 0.2420 \to S_{\text{model}} = 24.20$ (Weight: `0.25`).
-4. **Continuous Performance Score**: $0.75 \times 73.92 + 0.25 \times 24.20 - 4.0 (\text{penalty for 2 unassessable features}) = \mathbf{61.49}$.
-5. **Final Rank & Decision**: **Rank 103**, `RENEWAL_CONDITIONAL_PEER_REVIEW` (Confidence: `LOW_BOUNDARY_UNCERTAIN`, `is_boundary_uncertain: true` within $[57.0, 63.0]$).
+---
+
+#### Example 3: `ORG-0068` (Rank 103 — Boundary-Uncertain Agency with Missing Audits & Inconsistent Period)
+
+1. **Organisation ID**: `ORG-0068`
+2. **Raw Input Variables** ([`data/sample_dataset.json`](data/sample_dataset.json)):
+   - `team_size: 5`, `years_operational: 8.4`, `eligible_completed_audits: 0` (`MISSING_AUDIT_ACTIVITY`), `on_time_completed_audits: 0`, `mean_duration_days: 20.46`, `reviewed_reports: 18`, `identified_discrepancies: 15`, `applicable_controls: 30`, `compliant_applicable_controls: 24`, `historical_renewals: 3`, `historical_revocations: 0`, `reporting_period`: 18-month non-standard cycle (`INCONSISTENT_REPORTING_PERIOD`).
+3. **Computed Feature Values**:
+   - Audit Timeliness: `None`
+   - Audit Efficiency: `None`
+   - Error Rate: `0.833` discrepancies/report
+   - Agency Scale: `26.00` points
+   - Compliance Adherence: `80.00%`
+   - Past Renewal Status: `100.00%`
+4. **Feature Validity / Status**:
+   - Timeliness: `NOT_ASSESSABLE`, Efficiency: `NOT_ASSESSABLE`, Error Rate: `VALID`, Scale: `VALID`, Compliance: `VALID`, Past Renewal: `VALID`.
+5. **Normalized Feature Scores ($S_i \in [0, 100]$)**:
+   - Timeliness: `None` | Efficiency: `None` | Error Rate: `86.12` | Scale: `26.00` | Compliance: `80.00` | Past Renewal: `100.00`.
+6. **Feature Weights Applied (Dynamic Renormalization)**:
+   - Timeliness: `0.0000`, Efficiency: `0.0000`, Error Rate: `0.2308`, Scale: `0.1538`, Compliance: `0.3077`, Past Renewal: `0.3077` (Base weights reweighted over 4 valid features).
+7. **Feature Composite Score ($S_{\text{features}}$)**:
+   - $S_{\text{features}} = 0.2308(86.12) + 0.1538(26.00) + 0.3077(80.00) + 0.3077(100.00) = \mathbf{79.26}$.
+8. **Model Name & Version**: `gradient_boosting` (`v1.0.0`).
+9. **Model Predicted Renewal Probability**: $P(\text{RENEWED} \mid X) = 0.2420 \to S_{\text{model}} = 24.20$.
+10. **Scoring Weights Applied**: Feature composite weight = `0.75`, Model output weight = `0.25`.
+11. **Missing/Malformed Feature Penalty**: $-4.00$ ($2 \times 2.00$ for 2 unassessable features: `audit_timeliness`, `audit_efficiency`).
+12. **Final Continuous Performance Score**:
+    - $\text{Score} = (0.75 \times 79.26) + (0.25 \times 24.20) - 4.00 = 59.445 + 6.050 - 4.00 = 65.495 - 4.00 = \mathbf{61.49}$.
+13. **Final Rank**: **Rank 103** (out of 120 organisations in [`output/ranking.json`](output/ranking.json)).
+14. **Empanelment Recommendation**: `RENEWAL_CONDITIONAL_PEER_REVIEW`.
+15. **Decision Confidence**: `LOW_BOUNDARY_UNCERTAIN`.
+16. **Boundary Uncertainty Status**: `True` (Falls within the $\pm 3.0$ uncertainty interval $[57.0, 63.0]$ around the $60.0$ threshold; `boundary_flag: "UNCERTAIN_RENEWAL"`).
 
 ---
 
