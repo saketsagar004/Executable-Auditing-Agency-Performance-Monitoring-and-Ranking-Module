@@ -1,6 +1,6 @@
 # Auditing Agency Performance Monitoring and Ranking Module
 
-This repository contains the complete, executable, clean-room implementation of the **Auditing Agency Performance Monitoring, Scoring, and Ranking Module**.
+This repository contains the complete, executable, clean-room implementation of the Auditing Agency Performance Monitoring, Scoring, and Ranking Module.
 
 ---
 
