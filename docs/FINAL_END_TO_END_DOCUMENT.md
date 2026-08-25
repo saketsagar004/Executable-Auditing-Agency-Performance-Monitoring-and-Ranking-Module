@@ -2,9 +2,10 @@
 
 ## Auditing Agency Performance Monitoring, Classification, Scoring, and Air-Gapped Ranking Module
 
-**Project**: AI-Based Solution for Analysing, Benchmarking and Quality Monitoring of Cybersecurity Audit Reports and Performance Monitoring of Auditing Organisations
-**Authoritative Specification**: Task Assignment 2 Specification
+**Project**: AI-Based Solution for Analysing, Benchmarking, and Quality Monitoring of Cybersecurity Audit Reports and Performance Monitoring of Auditing Organisations
+
 **Submission Package Identifier**: `PerformanceMonitoring_Saket_20260824`
+
 **Date of Submission**: 2 September 2026
 
 ---
