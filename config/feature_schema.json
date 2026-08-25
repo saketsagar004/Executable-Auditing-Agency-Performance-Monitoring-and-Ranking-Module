@@ -1,0 +1,219 @@
+{
+  "schema_version": "1.0.0",
+  "last_updated": "2026-08-24T16:00:00Z",
+  "author": "Clean-Room Implementation Team",
+  "classification_types": [
+    "assignment_specified",
+    "judgement",
+    "synthetic_data_bound"
+  ],
+  "features": {
+    "audit_timeliness": {
+      "feature_id": "F1",
+      "feature_name": "Audit timeliness",
+      "description": "Proportion of audit reports delivered on schedule relative to eligible completed audits.",
+      "operational_definition": "Percentage of completed audits that were delivered on or before the committed due date within the evaluation cycle.",
+      "formula": "(on_time_completed_audits / eligible_completed_audits) * 100.0",
+      "formula_variables": {
+        "on_time_completed_audits": "Count of completed audit reports delivered on or before contractual/statutory milestone date.",
+        "eligible_completed_audits": "Total count of completed audits within the reporting period subject to delivery schedules."
+      },
+      "unit": "percentage",
+      "permitted_range": {
+        "min": 0.0,
+        "max": 100.0
+      },
+      "directionality": "higher_is_better",
+      "missing_data_rule": {
+        "strategy": "flag_not_assessable",
+        "condition": "eligible_completed_audits is missing or zero",
+        "status_code": "NOT_ASSESSABLE",
+        "imputation_value": null,
+        "explanation": "If no audits were completed in the period, timeliness cannot be computed mathematically; record as NOT_ASSESSABLE."
+      },
+      "partial_data_rule": {
+        "strategy": "include_completed_only",
+        "explanation": "In-progress audits without a completion date are excluded from the denominator."
+      },
+      "invalid_data_behaviour": {
+        "strategy": "reject_or_flag_invalid",
+        "action": "If on_time_completed_audits > eligible_completed_audits or value < 0, flag record as MALFORMED and set status to NOT_ASSESSABLE."
+      },
+      "derivation_justification": "Specified in Assignment 2 Section 2.1 / 5.2 as the proportion of on-time audits over completed audits, scaled to 0-100%.",
+      "derivation_classification": "assignment_specified"
+    },
+    "audit_efficiency": {
+      "feature_id": "F2",
+      "feature_name": "Audit efficiency",
+      "description": "Average duration in calendar days taken to complete an audit.",
+      "operational_definition": "Arithmetic mean of the turnaround time (actual completion date minus audit start date) across all eligible completed audits.",
+      "formula": "sum(actual_completion_date - audit_start_date) / eligible_completed_audits",
+      "formula_variables": {
+        "actual_completion_date": "Timestamp of formal audit report submission and sign-off.",
+        "audit_start_date": "Timestamp of formal audit initiation / kick-off meeting.",
+        "eligible_completed_audits": "Count of completed audits with valid start and completion timestamps."
+      },
+      "unit": "days",
+      "permitted_range": {
+        "min": 1.0,
+        "max": 180.0
+      },
+      "directionality": "lower_is_better",
+      "missing_data_rule": {
+        "strategy": "flag_not_assessable",
+        "condition": "eligible_completed_audits is missing or zero",
+        "status_code": "NOT_ASSESSABLE",
+        "imputation_value": null,
+        "explanation": "When zero audits exist, duration is undefined. Recorded as NOT_ASSESSABLE to prevent silent zero distortion."
+      },
+      "partial_data_rule": {
+        "strategy": "exclude_incomplete_records",
+        "explanation": "Individual audit records missing either start date or completion date are excluded from the summation."
+      },
+      "invalid_data_behaviour": {
+        "strategy": "flag_malformed",
+        "action": "Negative durations (completion before start) or durations exceeding 365 days are flagged as MALFORMED and set to NOT_ASSESSABLE."
+      },
+      "derivation_justification": "Assignment 2 Section 2.1 / 5.2 defines efficiency as the average duration taken to complete an audit.",
+      "derivation_classification": "assignment_specified"
+    },
+    "error_rate": {
+      "feature_id": "F3",
+      "feature_name": "Error rate",
+      "description": "Rate of discrepancies or quality non-conformances identified in reviewed audit reports.",
+      "operational_definition": "Ratio of total identified quality discrepancies to the total count of audited/reviewed reports.",
+      "formula": "identified_discrepancies / reviewed_reports",
+      "formula_variables": {
+        "identified_discrepancies": "Total count of substantive errors, omissions, or non-conformances found in quality reviews.",
+        "reviewed_reports": "Total count of audit reports subjected to peer review or quality assurance oversight."
+      },
+      "unit": "discrepancies_per_report",
+      "permitted_range": {
+        "min": 0.0,
+        "max": 20.0
+      },
+      "directionality": "lower_is_better",
+      "missing_data_rule": {
+        "strategy": "flag_not_assessable",
+        "condition": "reviewed_reports is missing or zero",
+        "status_code": "NOT_ASSESSABLE",
+        "imputation_value": null,
+        "explanation": "If no reports have been reviewed by QA, error rate is unobservable; flagged as NOT_ASSESSABLE."
+      },
+      "partial_data_rule": {
+        "strategy": "require_qa_completion",
+        "explanation": "Reports currently undergoing QA review without finalized discrepancy counts are omitted."
+      },
+      "invalid_data_behaviour": {
+        "strategy": "flag_malformed",
+        "action": "Negative discrepancy counts or ratios above synthetic ceiling (20.0) trigger MALFORMED data status."
+      },
+      "derivation_justification": "Denominator choice (reviewed_reports rather than total audits) is an explicit submitter judgement to prevent penalising unreviewed audits.",
+      "derivation_classification": "judgement"
+    },
+    "agency_scale": {
+      "feature_id": "F4",
+      "feature_name": "Agency scale",
+      "description": "Composite index reflecting organizational capacity via technical team size and operational experience.",
+      "operational_definition": "Equally weighted sum of 50% normalized team-size component and 50% normalized years-operational component, scaled to 0-100.",
+      "formula": "50.0 * min(team_size / max_team_size_bound, 1.0) + 50.0 * min(years_operational / max_years_bound, 1.0)",
+      "formula_variables": {
+        "team_size": "Number of certified cybersecurity auditors employed full-time.",
+        "years_operational": "Total continuous years of active cybersecurity auditing operations.",
+        "max_team_size_bound": "Upper normalization benchmark for team size (set to 50 professionals).",
+        "max_years_bound": "Upper normalization benchmark for operating experience (set to 20 years)."
+      },
+      "unit": "composite_index_points",
+      "permitted_range": {
+        "min": 0.0,
+        "max": 100.0
+      },
+      "directionality": "higher_is_better",
+      "missing_data_rule": {
+        "strategy": "flag_not_assessable",
+        "condition": "both team_size and years_operational are missing",
+        "status_code": "NOT_ASSESSABLE",
+        "imputation_value": null,
+        "explanation": "If organizational headcount and operational history are absent, agency scale cannot be established."
+      },
+      "partial_data_rule": {
+        "strategy": "single_component_partial",
+        "explanation": "If one sub-metric is missing, the available sub-metric is scaled to 50% max and flagged with PARTIAL_DATA warning."
+      },
+      "invalid_data_behaviour": {
+        "strategy": "flag_malformed",
+        "action": "Negative team size or negative operational years are rejected and flagged as MALFORMED."
+      },
+      "derivation_justification": "50-50 equal weighting and upper benchmark bounds (50 team size, 20 years) are submitter proof-of-concept design judgements.",
+      "derivation_classification": "judgement"
+    },
+    "compliance_adherence": {
+      "feature_id": "F5",
+      "feature_name": "Compliance adherence",
+      "description": "Level of adherence to established auditing standards, expressed as a percentage.",
+      "operational_definition": "Proportion of applicable mandatory auditing control checkpoints fully met by the agency across periodic compliance reviews.",
+      "formula": "(compliant_applicable_controls / applicable_controls) * 100.0",
+      "formula_variables": {
+        "compliant_applicable_controls": "Count of applicable standard control requirements verified as compliant.",
+        "applicable_controls": "Total count of mandated audit standard controls applicable to the agency scope."
+      },
+      "unit": "percentage",
+      "permitted_range": {
+        "min": 0.0,
+        "max": 100.0
+      },
+      "directionality": "higher_is_better",
+      "missing_data_rule": {
+        "strategy": "flag_not_assessable",
+        "condition": "applicable_controls is missing or zero",
+        "status_code": "NOT_ASSESSABLE",
+        "imputation_value": null,
+        "explanation": "Where no compliance audit has occurred or applicable controls count is 0, status is NOT_ASSESSABLE."
+      },
+      "partial_data_rule": {
+        "strategy": "require_full_checklist",
+        "explanation": "Checklist evaluations must be complete before computing adherence."
+      },
+      "invalid_data_behaviour": {
+        "strategy": "flag_malformed",
+        "action": "Compliant controls exceeding applicable controls or negative counts are flagged as MALFORMED."
+      },
+      "derivation_justification": "Specified in Assignment 2 Section 2.1 / 5.2 as compliance adherence expressed as a percentage.",
+      "derivation_classification": "assignment_specified"
+    },
+    "past_renewal_status": {
+      "feature_id": "F6",
+      "feature_name": "Past renewal status",
+      "description": "Historical record of formal empanelment renewals versus revocations.",
+      "operational_definition": "Percentage of successful renewal outcomes out of total definitive historical renewal/revocation decisions.",
+      "formula": "(historical_renewals / (historical_renewals + historical_revocations)) * 100.0",
+      "formula_variables": {
+        "historical_renewals": "Total cumulative count of past successful empanelment renewals.",
+        "historical_revocations": "Total cumulative count of past empanelment revocations, cancellations, or terminations."
+      },
+      "unit": "percentage",
+      "permitted_range": {
+        "min": 0.0,
+        "max": 100.0
+      },
+      "directionality": "higher_is_better",
+      "missing_data_rule": {
+        "strategy": "flag_not_assessable",
+        "condition": "(historical_renewals + historical_revocations) == 0",
+        "status_code": "NOT_ASSESSABLE",
+        "imputation_value": null,
+        "explanation": "New entrant organizations with zero renewal/revocation history must NEVER be treated as renewed or revoked; they are strictly flagged as NOT_ASSESSABLE."
+      },
+      "partial_data_rule": {
+        "strategy": "definitive_decisions_only",
+        "explanation": "Pending renewal applications without final adjudication are excluded."
+      },
+      "invalid_data_behaviour": {
+        "strategy": "flag_malformed",
+        "action": "Negative counts for renewals or revocations trigger MALFORMED data classification."
+      },
+      "derivation_justification": "Assignment 2 Section 5.2 mandates: if no historical decision exists, flag as NOT_ASSESSABLE. Never treat absent history as renewal or revocation.",
+      "derivation_classification": "assignment_specified"
+    }
+  }
+}

@@ -1,0 +1,1098 @@
+{
+  "evaluation_metadata": {
+    "evaluation_timestamp": "2026-08-24T16:00:00Z",
+    "random_seed": 20260824,
+    "dataset_path": "data/sample_dataset.json",
+    "train_sample_count": 96,
+    "test_sample_count": 24,
+    "features_used": [
+      "audit_timeliness",
+      "audit_efficiency",
+      "error_rate",
+      "agency_scale",
+      "compliance_adherence",
+      "past_renewal_status",
+      "missing_audit_timeliness",
+      "missing_audit_efficiency",
+      "missing_error_rate",
+      "missing_agency_scale",
+      "missing_compliance_adherence",
+      "missing_past_renewal_status"
+    ],
+    "primary_metric": "macro_f1",
+    "selection_criterion": "5-fold_stratified_cv_macro_f1",
+    "selected_best_model": "gradient_boosting",
+    "model_config_version": "1.0.0"
+  },
+  "comparison_summary": {
+    "baseline": {
+      "cv_mean_macro_f1": 0.4654,
+      "macro_f1": 0.5636,
+      "accuracy": 0.625,
+      "binary_f1": 0.7273
+    },
+    "gradient_boosting": {
+      "cv_mean_macro_f1": 0.6412,
+      "macro_f1": 0.7491,
+      "accuracy": 0.875,
+      "binary_f1": 0.9268
+    },
+    "svm": {
+      "cv_mean_macro_f1": 0.5523,
+      "macro_f1": 0.85,
+      "accuracy": 0.9167,
+      "binary_f1": 0.95
+    },
+    "neural_network": {
+      "cv_mean_macro_f1": 0.5895,
+      "macro_f1": 0.619,
+      "accuracy": 0.8333,
+      "binary_f1": 0.9048
+    }
+  },
+  "detailed_model_results": {
+    "baseline": {
+      "model_name": "baseline",
+      "best_hyperparameters": {
+        "strategy": "uniform"
+      },
+      "cv_best_score": 0.4654,
+      "test_metrics": {
+        "primary_metric": "macro_f1",
+        "macro_f1": 0.5636,
+        "accuracy": 0.625,
+        "macro_precision": 0.5979,
+        "macro_recall": 0.675,
+        "binary_precision": 0.9231,
+        "binary_recall": 0.6,
+        "binary_f1": 0.7273,
+        "confusion_matrix": {
+          "true_negative": 3,
+          "false_positive": 1,
+          "false_negative": 8,
+          "true_positive": 12,
+          "matrix": [
+            [
+              3,
+              1
+            ],
+            [
+              8,
+              12
+            ]
+          ]
+        },
+        "per_class_results": {
+          "NOT_RENEWED (Class 0)": {
+            "precision": 0.2727,
+            "recall": 0.75,
+            "f1_score": 0.4,
+            "support": 4
+          },
+          "RENEWED (Class 1)": {
+            "precision": 0.9231,
+            "recall": 0.6,
+            "f1_score": 0.7273,
+            "support": 20
+          }
+        },
+        "sample_count": 24
+      }
+    },
+    "gradient_boosting": {
+      "model_name": "gradient_boosting",
+      "best_hyperparameters": {
+        "learning_rate": 0.05,
+        "max_depth": 3,
+        "n_estimators": 100,
+        "subsample": 1.0
+      },
+      "cv_best_score": 0.6412,
+      "test_metrics": {
+        "primary_metric": "macro_f1",
+        "macro_f1": 0.7491,
+        "accuracy": 0.875,
+        "macro_precision": 0.7857,
+        "macro_recall": 0.725,
+        "binary_precision": 0.9048,
+        "binary_recall": 0.95,
+        "binary_f1": 0.9268,
+        "confusion_matrix": {
+          "true_negative": 2,
+          "false_positive": 2,
+          "false_negative": 1,
+          "true_positive": 19,
+          "matrix": [
+            [
+              2,
+              2
+            ],
+            [
+              1,
+              19
+            ]
+          ]
+        },
+        "per_class_results": {
+          "NOT_RENEWED (Class 0)": {
+            "precision": 0.6667,
+            "recall": 0.5,
+            "f1_score": 0.5714,
+            "support": 4
+          },
+          "RENEWED (Class 1)": {
+            "precision": 0.9048,
+            "recall": 0.95,
+            "f1_score": 0.9268,
+            "support": 20
+          }
+        },
+        "sample_count": 24
+      }
+    },
+    "svm": {
+      "model_name": "svm",
+      "best_hyperparameters": {
+        "C": 10.0,
+        "gamma": "scale",
+        "kernel": "rbf"
+      },
+      "cv_best_score": 0.5523,
+      "test_metrics": {
+        "primary_metric": "macro_f1",
+        "macro_f1": 0.85,
+        "accuracy": 0.9167,
+        "macro_precision": 0.85,
+        "macro_recall": 0.85,
+        "binary_precision": 0.95,
+        "binary_recall": 0.95,
+        "binary_f1": 0.95,
+        "confusion_matrix": {
+          "true_negative": 3,
+          "false_positive": 1,
+          "false_negative": 1,
+          "true_positive": 19,
+          "matrix": [
+            [
+              3,
+              1
+            ],
+            [
+              1,
+              19
+            ]
+          ]
+        },
+        "per_class_results": {
+          "NOT_RENEWED (Class 0)": {
+            "precision": 0.75,
+            "recall": 0.75,
+            "f1_score": 0.75,
+            "support": 4
+          },
+          "RENEWED (Class 1)": {
+            "precision": 0.95,
+            "recall": 0.95,
+            "f1_score": 0.95,
+            "support": 20
+          }
+        },
+        "sample_count": 24
+      }
+    },
+    "neural_network": {
+      "model_name": "neural_network",
+      "best_hyperparameters": {
+        "alpha": 0.01,
+        "hidden_layer_sizes": [
+          16
+        ],
+        "learning_rate_init": 0.01
+      },
+      "cv_best_score": 0.5895,
+      "test_metrics": {
+        "primary_metric": "macro_f1",
+        "macro_f1": 0.619,
+        "accuracy": 0.8333,
+        "macro_precision": 0.6818,
+        "macro_recall": 0.6,
+        "binary_precision": 0.8636,
+        "binary_recall": 0.95,
+        "binary_f1": 0.9048,
+        "confusion_matrix": {
+          "true_negative": 1,
+          "false_positive": 3,
+          "false_negative": 1,
+          "true_positive": 19,
+          "matrix": [
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              19
+            ]
+          ]
+        },
+        "per_class_results": {
+          "NOT_RENEWED (Class 0)": {
+            "precision": 0.5,
+            "recall": 0.25,
+            "f1_score": 0.3333,
+            "support": 4
+          },
+          "RENEWED (Class 1)": {
+            "precision": 0.8636,
+            "recall": 0.95,
+            "f1_score": 0.9048,
+            "support": 20
+          }
+        },
+        "sample_count": 24
+      }
+    }
+  },
+  "model_predictions": {
+    "ORG-0001": {
+      "organisation_id": "ORG-0001",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9789,
+      "model_score_component": 97.89
+    },
+    "ORG-0002": {
+      "organisation_id": "ORG-0002",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.8306,
+      "model_score_component": 83.06
+    },
+    "ORG-0003": {
+      "organisation_id": "ORG-0003",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9259,
+      "model_score_component": 92.59
+    },
+    "ORG-0004": {
+      "organisation_id": "ORG-0004",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.192,
+      "model_score_component": 19.2
+    },
+    "ORG-0005": {
+      "organisation_id": "ORG-0005",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.1901,
+      "model_score_component": 19.01
+    },
+    "ORG-0006": {
+      "organisation_id": "ORG-0006",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9125,
+      "model_score_component": 91.25
+    },
+    "ORG-0007": {
+      "organisation_id": "ORG-0007",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9294,
+      "model_score_component": 92.94
+    },
+    "ORG-0008": {
+      "organisation_id": "ORG-0008",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9819,
+      "model_score_component": 98.19
+    },
+    "ORG-0009": {
+      "organisation_id": "ORG-0009",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9269,
+      "model_score_component": 92.69
+    },
+    "ORG-0010": {
+      "organisation_id": "ORG-0010",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9763,
+      "model_score_component": 97.63
+    },
+    "ORG-0011": {
+      "organisation_id": "ORG-0011",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.901,
+      "model_score_component": 90.1
+    },
+    "ORG-0012": {
+      "organisation_id": "ORG-0012",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.209,
+      "model_score_component": 20.9
+    },
+    "ORG-0013": {
+      "organisation_id": "ORG-0013",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.1002,
+      "model_score_component": 10.02
+    },
+    "ORG-0014": {
+      "organisation_id": "ORG-0014",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9789,
+      "model_score_component": 97.89
+    },
+    "ORG-0015": {
+      "organisation_id": "ORG-0015",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.1033,
+      "model_score_component": 10.33
+    },
+    "ORG-0016": {
+      "organisation_id": "ORG-0016",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9626,
+      "model_score_component": 96.26
+    },
+    "ORG-0017": {
+      "organisation_id": "ORG-0017",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.2338,
+      "model_score_component": 23.38
+    },
+    "ORG-0018": {
+      "organisation_id": "ORG-0018",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9763,
+      "model_score_component": 97.63
+    },
+    "ORG-0019": {
+      "organisation_id": "ORG-0019",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9748,
+      "model_score_component": 97.48
+    },
+    "ORG-0020": {
+      "organisation_id": "ORG-0020",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9819,
+      "model_score_component": 98.19
+    },
+    "ORG-0021": {
+      "organisation_id": "ORG-0021",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9758,
+      "model_score_component": 97.58
+    },
+    "ORG-0022": {
+      "organisation_id": "ORG-0022",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9763,
+      "model_score_component": 97.63
+    },
+    "ORG-0023": {
+      "organisation_id": "ORG-0023",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9232,
+      "model_score_component": 92.32
+    },
+    "ORG-0024": {
+      "organisation_id": "ORG-0024",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9602,
+      "model_score_component": 96.02
+    },
+    "ORG-0025": {
+      "organisation_id": "ORG-0025",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9736,
+      "model_score_component": 97.36
+    },
+    "ORG-0026": {
+      "organisation_id": "ORG-0026",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.2545,
+      "model_score_component": 25.45
+    },
+    "ORG-0027": {
+      "organisation_id": "ORG-0027",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.3725,
+      "model_score_component": 37.25
+    },
+    "ORG-0028": {
+      "organisation_id": "ORG-0028",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9395,
+      "model_score_component": 93.95
+    },
+    "ORG-0029": {
+      "organisation_id": "ORG-0029",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9758,
+      "model_score_component": 97.58
+    },
+    "ORG-0030": {
+      "organisation_id": "ORG-0030",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9244,
+      "model_score_component": 92.44
+    },
+    "ORG-0031": {
+      "organisation_id": "ORG-0031",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9118,
+      "model_score_component": 91.18
+    },
+    "ORG-0032": {
+      "organisation_id": "ORG-0032",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9396,
+      "model_score_component": 93.96
+    },
+    "ORG-0033": {
+      "organisation_id": "ORG-0033",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9766,
+      "model_score_component": 97.66
+    },
+    "ORG-0034": {
+      "organisation_id": "ORG-0034",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9775,
+      "model_score_component": 97.75
+    },
+    "ORG-0035": {
+      "organisation_id": "ORG-0035",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9763,
+      "model_score_component": 97.63
+    },
+    "ORG-0036": {
+      "organisation_id": "ORG-0036",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9819,
+      "model_score_component": 98.19
+    },
+    "ORG-0037": {
+      "organisation_id": "ORG-0037",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9763,
+      "model_score_component": 97.63
+    },
+    "ORG-0038": {
+      "organisation_id": "ORG-0038",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9789,
+      "model_score_component": 97.89
+    },
+    "ORG-0039": {
+      "organisation_id": "ORG-0039",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9269,
+      "model_score_component": 92.69
+    },
+    "ORG-0040": {
+      "organisation_id": "ORG-0040",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9789,
+      "model_score_component": 97.89
+    },
+    "ORG-0041": {
+      "organisation_id": "ORG-0041",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9763,
+      "model_score_component": 97.63
+    },
+    "ORG-0042": {
+      "organisation_id": "ORG-0042",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9716,
+      "model_score_component": 97.16
+    },
+    "ORG-0043": {
+      "organisation_id": "ORG-0043",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9758,
+      "model_score_component": 97.58
+    },
+    "ORG-0044": {
+      "organisation_id": "ORG-0044",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.3871,
+      "model_score_component": 38.71
+    },
+    "ORG-0045": {
+      "organisation_id": "ORG-0045",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.1092,
+      "model_score_component": 10.92
+    },
+    "ORG-0046": {
+      "organisation_id": "ORG-0046",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9584,
+      "model_score_component": 95.84
+    },
+    "ORG-0047": {
+      "organisation_id": "ORG-0047",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.972,
+      "model_score_component": 97.2
+    },
+    "ORG-0048": {
+      "organisation_id": "ORG-0048",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9789,
+      "model_score_component": 97.89
+    },
+    "ORG-0049": {
+      "organisation_id": "ORG-0049",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9789,
+      "model_score_component": 97.89
+    },
+    "ORG-0050": {
+      "organisation_id": "ORG-0050",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9396,
+      "model_score_component": 93.96
+    },
+    "ORG-0051": {
+      "organisation_id": "ORG-0051",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.7199,
+      "model_score_component": 71.99
+    },
+    "ORG-0052": {
+      "organisation_id": "ORG-0052",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9763,
+      "model_score_component": 97.63
+    },
+    "ORG-0053": {
+      "organisation_id": "ORG-0053",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9819,
+      "model_score_component": 98.19
+    },
+    "ORG-0054": {
+      "organisation_id": "ORG-0054",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9789,
+      "model_score_component": 97.89
+    },
+    "ORG-0055": {
+      "organisation_id": "ORG-0055",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9819,
+      "model_score_component": 98.19
+    },
+    "ORG-0056": {
+      "organisation_id": "ORG-0056",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9819,
+      "model_score_component": 98.19
+    },
+    "ORG-0057": {
+      "organisation_id": "ORG-0057",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.289,
+      "model_score_component": 28.9
+    },
+    "ORG-0058": {
+      "organisation_id": "ORG-0058",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9789,
+      "model_score_component": 97.89
+    },
+    "ORG-0059": {
+      "organisation_id": "ORG-0059",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9789,
+      "model_score_component": 97.89
+    },
+    "ORG-0060": {
+      "organisation_id": "ORG-0060",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9789,
+      "model_score_component": 97.89
+    },
+    "ORG-0061": {
+      "organisation_id": "ORG-0061",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9789,
+      "model_score_component": 97.89
+    },
+    "ORG-0062": {
+      "organisation_id": "ORG-0062",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9763,
+      "model_score_component": 97.63
+    },
+    "ORG-0063": {
+      "organisation_id": "ORG-0063",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9819,
+      "model_score_component": 98.19
+    },
+    "ORG-0064": {
+      "organisation_id": "ORG-0064",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.137,
+      "model_score_component": 13.7
+    },
+    "ORG-0065": {
+      "organisation_id": "ORG-0065",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9763,
+      "model_score_component": 97.63
+    },
+    "ORG-0066": {
+      "organisation_id": "ORG-0066",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9736,
+      "model_score_component": 97.36
+    },
+    "ORG-0067": {
+      "organisation_id": "ORG-0067",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9816,
+      "model_score_component": 98.16
+    },
+    "ORG-0068": {
+      "organisation_id": "ORG-0068",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.242,
+      "model_score_component": 24.2
+    },
+    "ORG-0069": {
+      "organisation_id": "ORG-0069",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9269,
+      "model_score_component": 92.69
+    },
+    "ORG-0070": {
+      "organisation_id": "ORG-0070",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9412,
+      "model_score_component": 94.12
+    },
+    "ORG-0071": {
+      "organisation_id": "ORG-0071",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9819,
+      "model_score_component": 98.19
+    },
+    "ORG-0072": {
+      "organisation_id": "ORG-0072",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9775,
+      "model_score_component": 97.75
+    },
+    "ORG-0073": {
+      "organisation_id": "ORG-0073",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9758,
+      "model_score_component": 97.58
+    },
+    "ORG-0074": {
+      "organisation_id": "ORG-0074",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9653,
+      "model_score_component": 96.53
+    },
+    "ORG-0075": {
+      "organisation_id": "ORG-0075",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.0926,
+      "model_score_component": 9.26
+    },
+    "ORG-0076": {
+      "organisation_id": "ORG-0076",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9758,
+      "model_score_component": 97.58
+    },
+    "ORG-0077": {
+      "organisation_id": "ORG-0077",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9789,
+      "model_score_component": 97.89
+    },
+    "ORG-0078": {
+      "organisation_id": "ORG-0078",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.8467,
+      "model_score_component": 84.67
+    },
+    "ORG-0079": {
+      "organisation_id": "ORG-0079",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9602,
+      "model_score_component": 96.02
+    },
+    "ORG-0080": {
+      "organisation_id": "ORG-0080",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9789,
+      "model_score_component": 97.89
+    },
+    "ORG-0081": {
+      "organisation_id": "ORG-0081",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9789,
+      "model_score_component": 97.89
+    },
+    "ORG-0082": {
+      "organisation_id": "ORG-0082",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.1321,
+      "model_score_component": 13.21
+    },
+    "ORG-0083": {
+      "organisation_id": "ORG-0083",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9763,
+      "model_score_component": 97.63
+    },
+    "ORG-0084": {
+      "organisation_id": "ORG-0084",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9819,
+      "model_score_component": 98.19
+    },
+    "ORG-0085": {
+      "organisation_id": "ORG-0085",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.976,
+      "model_score_component": 97.6
+    },
+    "ORG-0086": {
+      "organisation_id": "ORG-0086",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9789,
+      "model_score_component": 97.89
+    },
+    "ORG-0087": {
+      "organisation_id": "ORG-0087",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9752,
+      "model_score_component": 97.52
+    },
+    "ORG-0088": {
+      "organisation_id": "ORG-0088",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.8696,
+      "model_score_component": 86.96
+    },
+    "ORG-0089": {
+      "organisation_id": "ORG-0089",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9626,
+      "model_score_component": 96.26
+    },
+    "ORG-0090": {
+      "organisation_id": "ORG-0090",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.2182,
+      "model_score_component": 21.82
+    },
+    "ORG-0091": {
+      "organisation_id": "ORG-0091",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.1047,
+      "model_score_component": 10.47
+    },
+    "ORG-0092": {
+      "organisation_id": "ORG-0092",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9688,
+      "model_score_component": 96.88
+    },
+    "ORG-0093": {
+      "organisation_id": "ORG-0093",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9819,
+      "model_score_component": 98.19
+    },
+    "ORG-0094": {
+      "organisation_id": "ORG-0094",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.0845,
+      "model_score_component": 8.45
+    },
+    "ORG-0095": {
+      "organisation_id": "ORG-0095",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9819,
+      "model_score_component": 98.19
+    },
+    "ORG-0096": {
+      "organisation_id": "ORG-0096",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.8634,
+      "model_score_component": 86.34
+    },
+    "ORG-0097": {
+      "organisation_id": "ORG-0097",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.0999,
+      "model_score_component": 9.99
+    },
+    "ORG-0098": {
+      "organisation_id": "ORG-0098",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.8723,
+      "model_score_component": 87.23
+    },
+    "ORG-0099": {
+      "organisation_id": "ORG-0099",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9819,
+      "model_score_component": 98.19
+    },
+    "ORG-0100": {
+      "organisation_id": "ORG-0100",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9683,
+      "model_score_component": 96.83
+    },
+    "ORG-0101": {
+      "organisation_id": "ORG-0101",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.7465,
+      "model_score_component": 74.65
+    },
+    "ORG-0102": {
+      "organisation_id": "ORG-0102",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.7153,
+      "model_score_component": 71.53
+    },
+    "ORG-0103": {
+      "organisation_id": "ORG-0103",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9819,
+      "model_score_component": 98.19
+    },
+    "ORG-0104": {
+      "organisation_id": "ORG-0104",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9819,
+      "model_score_component": 98.19
+    },
+    "ORG-0105": {
+      "organisation_id": "ORG-0105",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9819,
+      "model_score_component": 98.19
+    },
+    "ORG-0106": {
+      "organisation_id": "ORG-0106",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9752,
+      "model_score_component": 97.52
+    },
+    "ORG-0107": {
+      "organisation_id": "ORG-0107",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9789,
+      "model_score_component": 97.89
+    },
+    "ORG-0108": {
+      "organisation_id": "ORG-0108",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9819,
+      "model_score_component": 98.19
+    },
+    "ORG-0109": {
+      "organisation_id": "ORG-0109",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9789,
+      "model_score_component": 97.89
+    },
+    "ORG-0110": {
+      "organisation_id": "ORG-0110",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9819,
+      "model_score_component": 98.19
+    },
+    "ORG-0111": {
+      "organisation_id": "ORG-0111",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9472,
+      "model_score_component": 94.72
+    },
+    "ORG-0112": {
+      "organisation_id": "ORG-0112",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9783,
+      "model_score_component": 97.83
+    },
+    "ORG-0113": {
+      "organisation_id": "ORG-0113",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9335,
+      "model_score_component": 93.35
+    },
+    "ORG-0114": {
+      "organisation_id": "ORG-0114",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9038,
+      "model_score_component": 90.38
+    },
+    "ORG-0115": {
+      "organisation_id": "ORG-0115",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9789,
+      "model_score_component": 97.89
+    },
+    "ORG-0116": {
+      "organisation_id": "ORG-0116",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9653,
+      "model_score_component": 96.53
+    },
+    "ORG-0117": {
+      "organisation_id": "ORG-0117",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9758,
+      "model_score_component": 97.58
+    },
+    "ORG-0118": {
+      "organisation_id": "ORG-0118",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.2237,
+      "model_score_component": 22.37
+    },
+    "ORG-0119": {
+      "organisation_id": "ORG-0119",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9676,
+      "model_score_component": 96.76
+    },
+    "ORG-0120": {
+      "organisation_id": "ORG-0120",
+      "model_name": "gradient_boosting",
+      "model_version": "1.0.0",
+      "predicted_renewal_probability": 0.9078,
+      "model_score_component": 90.78
+    }
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "model_config_version": "1.0.0",
+  "random_seed": 20260824,
+  "data_split": {
+    "test_size": 0.20,
+    "stratify": true,
+    "shuffle": true
+  },
+  "validation_strategy": {
+    "type": "stratified_k_fold",
+    "n_splits": 5,
+    "shuffle": true
+  },
+  "primary_metric": "macro_f1",
+  "secondary_metrics": [
+    "accuracy",
+    "precision",
+    "recall",
+    "f1",
+    "confusion_matrix"
+  ],
+  "models": {
+    "baseline": {
+      "model_type": "DummyClassifier",
+      "description": "Majority class baseline classifier",
+      "params": {
+        "strategy": "most_frequent"
+      },
+      "hyperparameter_grid": {
+        "strategy": ["most_frequent", "stratified", "uniform"]
+      }
+    },
+    "gradient_boosting": {
+      "model_type": "GradientBoostingClassifier",
+      "description": "Gradient Boosted Decision Trees",
+      "params": {
+        "n_estimators": 100,
+        "learning_rate": 0.1,
+        "max_depth": 3,
+        "subsample": 0.8,
+        "random_state": 20260824
+      },
+      "hyperparameter_grid": {
+        "n_estimators": [50, 100, 150],
+        "learning_rate": [0.05, 0.1, 0.2],
+        "max_depth": [2, 3, 4],
+        "subsample": [0.8, 1.0]
+      }
+    },
+    "svm": {
+      "model_type": "SVC",
+      "description": "Support Vector Classifier with RBF / Linear kernels",
+      "params": {
+        "C": 1.0,
+        "kernel": "rbf",
+        "gamma": "scale",
+        "probability": true,
+        "random_state": 20260824
+      },
+      "hyperparameter_grid": {
+        "C": [0.1, 1.0, 10.0],
+        "kernel": ["linear", "rbf"],
+        "gamma": ["scale", "auto"]
+      }
+    },
+    "neural_network": {
+      "model_type": "MLPClassifier",
+      "description": "Multi-Layer Perceptron Neural Network",
+      "params": {
+        "hidden_layer_sizes": [32, 16],
+        "activation": "relu",
+        "solver": "adam",
+        "alpha": 0.001,
+        "max_iter": 500,
+        "early_stopping": true,
+        "random_state": 20260824
+      },
+      "hyperparameter_grid": {
+        "hidden_layer_sizes": [[16], [32, 16], [64, 32]],
+        "alpha": [0.0001, 0.001, 0.01],
+        "learning_rate_init": [0.001, 0.01]
+      }
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "rule_version": "1.0.0",
+  "disclaimer": "A synthetic proof-of-concept label-generation rule created by the submitter; it is not a real-world empanelment policy.",
+  "derivation_classification": "judgement",
+  "classes": [
+    "RENEWED",
+    "NOT_RENEWED"
+  ],
+  "positive_class": "RENEWED",
+  "negative_class": "NOT_RENEWED",
+  "decision_threshold": 0.62,
+  "noise_rate": 0.08,
+  "feature_contributions": {
+    "audit_timeliness": {
+      "weight": 0.22,
+      "scale_min": 0.0,
+      "scale_max": 100.0,
+      "direction": "positive"
+    },
+    "audit_efficiency": {
+      "weight": 0.16,
+      "scale_min": 10.0,
+      "scale_max": 90.0,
+      "direction": "negative"
+    },
+    "error_rate": {
+      "weight": 0.18,
+      "scale_min": 0.0,
+      "scale_max": 8.0,
+      "direction": "negative"
+    },
+    "agency_scale": {
+      "weight": 0.10,
+      "scale_min": 0.0,
+      "scale_max": 100.0,
+      "direction": "positive"
+    },
+    "compliance_adherence": {
+      "weight": 0.20,
+      "scale_min": 0.0,
+      "scale_max": 100.0,
+      "direction": "positive"
+    },
+    "past_renewal_status": {
+      "weight": 0.14,
+      "scale_min": 0.0,
+      "scale_max": 100.0,
+      "direction": "positive"
+    }
+  },
+  "missing_feature_treatment": {
+    "strategy": "neutral_default",
+    "neutral_score": 0.5,
+    "penalty_per_missing_feature": 0.03
+  }
+}

@@ -1,0 +1,7 @@
+# Air-Gapped Vendored Dependencies
+# Exact pinned versions for complete offline installation
+numpy==2.2.3
+scipy==1.15.2
+joblib==1.4.2
+threadpoolctl==3.5.0
+scikit-learn==1.6.1

@@ -1,0 +1,68 @@
+{
+  "scoring_version": "1.0.0",
+  "derivation_classification": "judgement",
+  "derivation_note": "Scoring aggregation combines normalized feature attributes with trained model renewal probabilities into a continuous performance score.",
+  "aggregation_method": "feature_and_model_hybrid_combination",
+  "weights": {
+    "audit_timeliness": 0.20,
+    "audit_efficiency": 0.15,
+    "error_rate": 0.15,
+    "agency_scale": 0.10,
+    "compliance_adherence": 0.20,
+    "past_renewal_status": 0.20
+  },
+  "feature_composite_weight": 0.75,
+  "model_output_weight": 0.25,
+  "direction_normalization": {
+    "audit_timeliness": {
+      "type": "direct_percentage",
+      "min_val": 0.0,
+      "max_val": 100.0
+    },
+    "audit_efficiency": {
+      "type": "inverted_linear",
+      "best_val": 10.0,
+      "worst_val": 90.0
+    },
+    "error_rate": {
+      "type": "inverted_linear",
+      "best_val": 0.0,
+      "worst_val": 6.0
+    },
+    "agency_scale": {
+      "type": "direct_percentage",
+      "min_val": 0.0,
+      "max_val": 100.0
+    },
+    "compliance_adherence": {
+      "type": "direct_percentage",
+      "min_val": 0.0,
+      "max_val": 100.0
+    },
+    "past_renewal_status": {
+      "type": "direct_percentage",
+      "min_val": 0.0,
+      "max_val": 100.0
+    }
+  },
+  "missing_data_treatment": {
+    "strategy": "reweight_available_features",
+    "min_required_features": 3,
+    "penalty_per_not_assessable": 2.0,
+    "insufficient_data_status": "UNRANKED_INSUFFICIENT_DATA"
+  },
+  "renewal_decision_threshold": 60.0,
+  "boundary_uncertainty": {
+    "margin": 3.0,
+    "lower_boundary": 57.0,
+    "upper_boundary": 63.0,
+    "uncertain_flag": "UNCERTAIN_RENEWAL",
+    "derivation_classification": "judgement"
+  },
+  "tie_breaking_hierarchy": [
+    "compliance_adherence",
+    "audit_timeliness",
+    "audit_efficiency_inverted",
+    "organisation_id"
+  ]
+}

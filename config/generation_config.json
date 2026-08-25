@@ -1,0 +1,98 @@
+{
+  "config_version": "1.0.0",
+  "random_seed": 20260824,
+  "default_organisation_count": 120,
+  "derivation_classification": "synthetic_data_bound",
+  "distributions": {
+    "team_size": {
+      "type": "lognormal",
+      "mean": 2.6,
+      "sigma": 0.6,
+      "min_val": 2,
+      "max_val": 75,
+      "description": "Team size distribution with right skew (most agencies have 8-25 auditors, few have 50+)."
+    },
+    "years_operational": {
+      "type": "gamma",
+      "shape": 3.0,
+      "scale": 2.5,
+      "min_val": 1,
+      "max_val": 25,
+      "description": "Operating experience in years, mode around 5-8 years."
+    },
+    "eligible_completed_audits": {
+      "type": "poisson_scaled",
+      "base_per_auditor": 4.5,
+      "min_val": 1,
+      "max_val": 200,
+      "description": "Total completed audits scaled to agency capacity."
+    },
+    "audit_timeliness_pct": {
+      "type": "beta",
+      "alpha": 8.0,
+      "beta_param": 2.0,
+      "scale": 100.0,
+      "description": "Beta distribution skewed towards high timeliness (mean ~80%)."
+    },
+    "audit_duration_days": {
+      "type": "gamma",
+      "shape": 4.0,
+      "scale": 8.0,
+      "min_val": 5.0,
+      "max_val": 120.0,
+      "description": "Audit turnaround duration in days (mean ~32 days)."
+    },
+    "discrepancies_per_report": {
+      "type": "exponential",
+      "scale": 1.8,
+      "min_val": 0.0,
+      "max_val": 15.0,
+      "description": "Error rate in discrepancies per report (mode near 0-2)."
+    },
+    "compliance_adherence_pct": {
+      "type": "beta",
+      "alpha": 12.0,
+      "beta_param": 2.0,
+      "scale": 100.0,
+      "description": "Compliance adherence percentage (mean ~85.7%)."
+    },
+    "historical_renewals": {
+      "type": "binomial",
+      "n_max": 8,
+      "prob": 0.85,
+      "description": "Count of past renewals."
+    },
+    "historical_revocations": {
+      "type": "binomial",
+      "n_max": 3,
+      "prob": 0.15,
+      "description": "Count of past revocations."
+    }
+  },
+  "irregularity_probabilities": {
+    "missing_audit_data_prob": 0.05,
+    "missing_compliance_prob": 0.04,
+    "sparse_history_prob": 0.12,
+    "outlier_prob": 0.06,
+    "malformed_data_prob": 0.04,
+    "inconsistent_period_prob": 0.05
+  },
+  "outlier_ranges": {
+    "extreme_high_duration_days": 210.0,
+    "extreme_high_discrepancies": 22.5,
+    "extreme_low_timeliness": 12.0
+  },
+  "operational_parameters": {
+    "applicable_controls_choices": [25, 30, 40, 50, 60],
+    "reviewed_reports_fraction_min": 0.7,
+    "reviewed_reports_fraction_max": 1.0,
+    "sparse_history_years_threshold": 2.0,
+    "historical_renewals_years_divisor": 2.5,
+    "reporting_period": {
+      "standard_start_date": "2025-01-01",
+      "standard_end_date": "2025-12-31",
+      "standard_duration_months": 12,
+      "irregular_durations_months": [6, 9, 18, 24]
+    }
+  }
+}
